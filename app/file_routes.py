@@ -13,7 +13,7 @@ def index_file():
 @app.route('/encrypt/file/vigenere', methods=['GET'])
 def encrypt_file_vigenere():
     query = request.args.get('plaintext')
-    return jsonify({'ciphertext':query})
+    return jsonify({'ciphertext': query})
 
 
 @app.route('/encrypt/file/vigenere/full', methods=['GET'])
