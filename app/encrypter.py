@@ -15,7 +15,7 @@ Encrypter
 
 import numpy as np
 from .helper.vigenere_helper import *
-from .helper.handle_capital import letter_base_number, standardize_key, get_char, get_order
+from .helper.handle_character import letter_base_number, standardize_key, get_char, get_order
 
 
 def standard_vigenere_encrypter(plaintext, key):
@@ -26,8 +26,8 @@ def standard_vigenere_encrypter(plaintext, key):
         key_letter = standardize_key(plaintext[i], key[i])
         base_number = letter_base_number(plaintext[i])
         encrypted_char = (ord(plaintext[i]) + ord(key_letter)) % 26
-        encrypted_char += base_number
-        ciphertext.append(chr(encrypted_char))
+        encrypted_char = get_char(encrypted_char, base_number)
+        ciphertext.append(encrypted_char)
 
     return "".join(ciphertext)
 
@@ -43,8 +43,8 @@ def auto_key_vigenere_encrypter(plaintext, key):
         key_letter = standardize_key(plaintext[i], key[i])
         base_number = letter_base_number(plaintext[i])
         encrypted_char = (ord(plaintext[i]) + ord(key_letter)) % 26
-        encrypted_char += base_number
-        ciphertext.append(chr(encrypted_char))
+        encrypted_char = get_char(encrypted_char, base_number)
+        ciphertext.append(encrypted_char)
 
     return "".join(ciphertext)
 
@@ -74,8 +74,8 @@ def affine_encrypter(plaintext, m, b):
     for i in range(len(plaintext)):
         base_number = letter_base_number(plaintext[i])
         encrypted_char = (m * (ord(plaintext[i])-base_number) + b) % 26
-        encrypted_char += base_number
-        ciphertext.append(chr(encrypted_char))
+        encrypted_char = get_char(encrypted_char, base_number)
+        ciphertext.append(encrypted_char)
 
     return "".join(ciphertext)
 

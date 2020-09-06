@@ -14,7 +14,7 @@ Decrypter
 
 import numpy as np
 from .helper.vigenere_helper import generate_vigenere_standard_key
-from .helper.handle_capital import letter_base_number, standardize_key, get_char, get_order
+from .helper.handle_character import letter_base_number, standardize_key, get_char, get_order
 from .helper.affine_helper import find_m_inverse
 
 
@@ -25,8 +25,8 @@ def standard_vigenere_decrypter(ciphertext, key):
         key_letter = standardize_key(ciphertext[i], key[i])
         base_number = letter_base_number(ciphertext[i])
         decrypted_char = (ord(ciphertext[i]) - ord(key_letter) + 26) % 26
-        decrypted_char += base_number
-        plaintext.append(chr(decrypted_char))
+        decrypted_char = get_char(decrypted_char, base_number)
+        plaintext.append(decrypted_char)
 
     return "".join(plaintext)
 
@@ -41,8 +41,8 @@ def auto_key_vigenere_decrypter(ciphertext, key):
         key_letter = standardize_key(ciphertext[i], key[i])
         base_number = letter_base_number(ciphertext[i])
         decrypted_char = (ord(ciphertext[i]) - ord(key_letter) + 26) % 26
-        decrypted_char += base_number
-        plaintext.append(chr(decrypted_char))
+        decrypted_char = get_char(decrypted_char, base_number)
+        plaintext.append(decrypted_char)
 
     return "".join(plaintext)
 
@@ -72,8 +72,8 @@ def affine_decrypter(ciphertext, m, b):
         base_number = letter_base_number(ciphertext[i])
         decrypted_char = (
             inversed_m * ((ord(ciphertext[i])-base_number) - b)) % 26
-        decrypted_char += base_number
-        plaintext.append(chr(decrypted_char))
+        decrypted_char = get_char(decrypted_char, base_number)
+        plaintext.append(decrypted_char)
 
     return "".join(plaintext)
 
