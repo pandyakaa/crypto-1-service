@@ -1,5 +1,8 @@
 from app import app
 from flask import request
+from .decrypter import *
+from .encrypter import *
+from .helper.create_response import create_cipher_text_response, create_plain_text_response
 
 
 @app.route('/')
@@ -13,7 +16,11 @@ def index():
 @app.route('/encrypt/text/vigenere', methods=['GET'])
 def encrypt_text_vigenere():
     query = request.args.get('plaintext')
-    return query
+    key = request.args.get('key')
+    encrypted_text = standard_vigenere_encrypter(query, key)
+
+    response = create_cipher_text_response(encrypted_text)
+    return response
 
 
 @app.route('/encrypt/text/vigenere/full', methods=['GET'])
@@ -25,7 +32,11 @@ def encrypt_full_text_vigenere():
 @app.route('/encrypt/text/vigenere/auto', methods=['GET'])
 def encrypt_auto_text_vigenere():
     query = request.args.get('plaintext')
-    return query
+    key = request.args.get('key')
+    encrypted_text = auto_key_vigenere_encrypter(query, key)
+
+    response = create_cipher_text_response(encrypted_text)
+    return response
 
 
 @app.route('/encrypt/text/vigenere/extended', methods=['GET'])
@@ -70,7 +81,11 @@ def encrypt_text_enigma():
 @app.route('/decrypt/text/vigenere', methods=['GET'])
 def decrypt_text_vigenere():
     query = request.args.get('ciphertext')
-    return query
+    key = request.args.get('key')
+    decrypted_text = standard_vigenere_decrypter(query, key)
+
+    response = create_plain_text_response(decrypted_text)
+    return response
 
 
 @app.route('/decrypt/text/vigenere/full', methods=['GET'])
@@ -82,7 +97,11 @@ def decrypt_full_text_vigenere():
 @app.route('/decrypt/text/vigenere/auto', methods=['GET'])
 def decrypt_auto_text_vigenere():
     query = request.args.get('ciphertext')
-    return query
+    key = request.args.get('key')
+    decrypted_text = auto_key_vigenere_decrypter(query, key)
+
+    response = create_plain_text_response(decrypted_text)
+    return response
 
 
 @app.route('/decrypt/text/vigenere/extended', methods=['GET'])

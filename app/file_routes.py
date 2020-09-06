@@ -1,6 +1,7 @@
 from app import app
 from flask import request, jsonify
 from .helper.handle_file import handle_file, handle_ascii_file
+from .encrypter import *
 
 
 @app.route('/file')
