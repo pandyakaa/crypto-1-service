@@ -1,14 +1,15 @@
-''' 
+'''
 Decrypter
 
 1. Standard vigenere cipher
 2. Full vigenere cipher
 3. Auto-key vigenere cipher
-4. Playfair cipher
-5. Super encrypt = standard vigenere + transpose cipher
-5. Affine cipher
-6. Hill cipher
-7. Enigma cipher
+4. Extended vigenere cipher 
+5. Playfair cipher
+6. Super encrypt = standard vigenere + transpose cipher
+7. Affine cipher
+8. Hill cipher
+9. Enigma cipher
 '''
 
 from .helper.vigenere_helper import *
@@ -37,6 +38,10 @@ def auto_key_vigenere_decrypter(ciphertext, key):
         plaintext.append(chr(decrypted_char))
 
     return "".join(plaintext)
+
+
+def extended_vigenere_decrypter(plaintext, key):
+    return None
 
 
 def playfair_decrypter(ciphertext, key):

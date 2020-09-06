@@ -4,11 +4,12 @@ Encrypter
 1. Standard vigenere cipher
 2. Full vigenere cipher
 3. Auto-key vigenere cipher
-4. Playfair cipher
-5. Super encrypt = standard vigenere + transpose cipher
-5. Affine cipher
-6. Hill cipher
-7. Enigma cipher
+4. Extended vigenere cipher 
+5. Playfair cipher
+6. Super encrypt = standard vigenere + transpose cipher
+7. Affine cipher
+8. Hill cipher
+9. Enigma cipher
 '''
 
 
@@ -40,6 +41,10 @@ def auto_key_vigenere_encrypter(plaintext, key):
         ciphertext.append(chr(encrypted_char))
 
     return "".join(ciphertext)
+
+
+def extended_vigenere_encrypter(plaintext, key):
+    return None
 
 
 def playfair_encrypter(plaintext, key):
