@@ -132,7 +132,14 @@ def decrypt_text_super():
 @app.route('/decrypt/text/affine', methods=['GET'])
 def decrypt_text_affine():
     query = request.args.get('ciphertext')
-    return query
+    m = request.args.get('m')
+    b = request.args.get('b')
+
+    m, b = int(m), int(b)
+    decrypted_text = affine_decrypter(query, m, b)
+
+    response = create_plain_text_response(decrypted_text)
+    return response
 
 
 @app.route('/decrypt/text/hill', methods=['GET'])

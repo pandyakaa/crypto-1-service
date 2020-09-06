@@ -14,6 +14,7 @@ Encrypter
 
 
 from .helper.vigenere_helper import *
+from .helper.handle_capital import letter_base_number, standardize_key
 
 
 def standard_vigenere_encrypter(plaintext, key):
@@ -21,8 +22,10 @@ def standard_vigenere_encrypter(plaintext, key):
     key = generate_vigenere_standard_key(plaintext, key)
     plaintext = plaintext.replace(" ", "").strip()
     for i in range(len(plaintext)):
-        encrypted_char = (ord(plaintext[i]) + ord(key[i])) % 26
-        encrypted_char += ord('A')
+        key_letter = standardize_key(plaintext[i], key[i])
+        base_number = letter_base_number(plaintext[i])
+        encrypted_char = (ord(plaintext[i]) + ord(key_letter)) % 26
+        encrypted_char += base_number
         ciphertext.append(chr(encrypted_char))
 
     return "".join(ciphertext)
@@ -36,8 +39,10 @@ def auto_key_vigenere_encrypter(plaintext, key):
     ciphertext = []
     key = generate_vigenere_full_key(plaintext, key)
     for i in range(len(plaintext)):
-        encrypted_char = (ord(plaintext[i]) + ord(key[i])) % 26
-        encrypted_char += ord('A')
+        key_letter = standardize_key(plaintext[i], key[i])
+        base_number = letter_base_number(plaintext[i])
+        encrypted_char = (ord(plaintext[i]) + ord(key_letter)) % 26
+        encrypted_char += base_number
         ciphertext.append(chr(encrypted_char))
 
     return "".join(ciphertext)
@@ -65,10 +70,10 @@ def super_encrypter(plaintext, key):
 def affine_encrypter(plaintext, m, b):
     ciphertext = []
     plaintext = plaintext.replace(" ", "").strip()
-    for i in range(len(plaintext)) :
-        print(m * ord(plaintext[i]) + b)
-        encrypted_char = (m * ord(plaintext[i]) + b) % 26
-        encrypted_char += ord('A')
+    for i in range(len(plaintext)):
+        base_number = letter_base_number(plaintext[i])
+        encrypted_char = (m * (ord(plaintext[i])-base_number) + b) % 26
+        encrypted_char += base_number
         ciphertext.append(chr(encrypted_char))
 
     return "".join(ciphertext)
