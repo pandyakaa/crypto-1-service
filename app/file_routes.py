@@ -15,9 +15,10 @@ def index_file():
 @app.route('/encrypt/file/vigenere', methods=['GET', 'POST'])
 def encrypt_file_vigenere():
     file = request.files['file']
+    key = request.args.get('key')
     filename, file_context = handle_file(file)
-    encrypted_context = standard_vigenere_encrypter(file_context)
-    return jsonify({'ciphertext': file_context})
+    encrypted_context = standard_vigenere_encrypter(file_context, key)
+    return jsonify({'ciphertext': encrypted_context})
 
 
 @app.route('/encrypt/file/vigenere/full', methods=['GET', 'POST'])
