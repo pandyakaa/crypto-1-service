@@ -16,6 +16,7 @@ def index_file():
 def encrypt_file_vigenere():
     file = request.files['file']
     filename, file_context = handle_file(file)
+    encrypted_context = standard_vigenere_encrypter(file_context)
     return jsonify({'ciphertext': file_context})
 
 

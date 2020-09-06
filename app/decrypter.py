@@ -40,8 +40,14 @@ def auto_key_vigenere_decrypter(ciphertext, key):
     return "".join(plaintext)
 
 
-def extended_vigenere_decrypter(plaintext, key):
-    return None
+def extended_vigenere_decrypter(ciphertext, key):
+    plaintext = []
+    key = generate_vigenere_standard_key(ciphertext, key)
+    for i in range(len(ciphertext)):
+        decrypted_char = (ord(ciphertext[i]) - ord(key[i]) + 256) % 256
+        plaintext.append(chr(decrypted_char))
+
+    return "".join(plaintext)
 
 
 def playfair_decrypter(ciphertext, key):

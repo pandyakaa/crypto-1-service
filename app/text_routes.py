@@ -60,7 +60,14 @@ def encrypt_text_super():
 @app.route('/encrypt/text/affine', methods=['GET'])
 def encrypt_text_affine():
     query = request.args.get('plaintext')
-    return query
+    m = request.args.get('m')
+    b = request.args.get('b')
+
+    m, b = int(m), int(b)
+    encrypted_text = affine_encrypter(query, m, b)
+
+    response = create_cipher_text_response(encrypted_text)
+    return response
 
 
 @app.route('/encrypt/text/hill', methods=['GET'])
