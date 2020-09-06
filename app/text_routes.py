@@ -73,7 +73,8 @@ def encrypt_text_affine():
 @app.route('/encrypt/text/hill', methods=['GET'])
 def encrypt_text_hill():
     query = request.args.get('plaintext')
-    response = hill_encrypter(query,'')
+    encrypted_text = hill_encrypter(query,'')
+    response = create_cipher_text_response(encrypted_text)
     return response
 
 
@@ -139,7 +140,9 @@ def decrypt_text_affine():
 @app.route('/decrypt/text/hill', methods=['GET'])
 def decrypt_text_hill():
     query = request.args.get('ciphertext')
-    return query
+    decrypted_text = hill_decrypter(query,'')
+    response = create_plain_text_response(decrypted_text)
+    return response
 
 
 @app.route('/decrypt/text/enigma', methods=['GET'])

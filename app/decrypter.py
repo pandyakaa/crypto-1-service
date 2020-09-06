@@ -12,7 +12,9 @@ Decrypter
 9. Enigma cipher
 '''
 
+import numpy as np
 from .helper.vigenere_helper import *
+from .helper.util import *
 
 
 def standard_vigenere_decrypter(ciphertext, key):
@@ -63,7 +65,18 @@ def affine_decrypter(ciphertext, key):
 
 
 def hill_decrypter(ciphertext, key):
-    return None
+    res = ""
+    ciphertext = ciphertext.replace(" ", "")
+    rem = len(ciphertext) % 3
+    ciphertext += 'x' * (3-rem)
+    key = np.array([[17, 17, 5], [21, 18, 21], [2, 2, 19]])
+    key_inversed = np.linalg.inv(key)
+    for i in range(0, len(ciphertext) - 3, 3):
+        current_string = np.array([getOrder(ciphertext[i]), getOrder(ciphertext[i+1]), getOrder(ciphertext[i+2])])
+        dot_result = np.dot(key_inversed, current_string)
+        current_result = np.mod(dot_result, 26)
+        res += getChar(current_result[0]) + getChar(current_result[1]) + getChar(current_result[2])
+    return res
 
 
 def enigma_decrypter(ciphertext, key):
