@@ -15,8 +15,9 @@ def index():
 
 @app.route('/encrypt/text/vigenere', methods=['GET'])
 def encrypt_text_vigenere():
-    query = request.args.get('plaintext')
-    key = request.args.get('key')
+    json_request = request.get_json()
+    query = json_request['plaintext']
+    key = json_request['key']
     encrypted_text = standard_vigenere_encrypter(query, key)
 
     response = create_cipher_text_response(encrypted_text)
@@ -31,8 +32,9 @@ def encrypt_full_text_vigenere():
 
 @app.route('/encrypt/text/vigenere/auto', methods=['GET'])
 def encrypt_auto_text_vigenere():
-    query = request.args.get('plaintext')
-    key = request.args.get('key')
+    json_request = request.get_json()
+    query = json_request['plaintext']
+    key = json_request['key']
     encrypted_text = auto_key_vigenere_encrypter(query, key)
 
     response = create_cipher_text_response(encrypted_text)
@@ -59,9 +61,10 @@ def encrypt_text_super():
 
 @app.route('/encrypt/text/affine', methods=['GET'])
 def encrypt_text_affine():
-    query = request.args.get('plaintext')
-    m = request.args.get('m')
-    b = request.args.get('b')
+    json_request = request.get_json()
+    query = json_request['plaintext']
+    m = json_request['m']
+    b = json_request['b']
 
     m, b = int(m), int(b)
     encrypted_text = affine_encrypter(query, m, b)
@@ -72,8 +75,11 @@ def encrypt_text_affine():
 
 @app.route('/encrypt/text/hill', methods=['GET'])
 def encrypt_text_hill():
-    query = request.args.get('plaintext')
-    response = hill_encrypter(query,'')
+    json_request = request.get_json()
+    query = json_request['plaintext']
+    response = hill_encrypter(query, '')
+
+    response = create_cipher_text_response(response)
     return response
 
 
@@ -88,8 +94,9 @@ def encrypt_text_enigma():
 
 @app.route('/decrypt/text/vigenere', methods=['GET'])
 def decrypt_text_vigenere():
-    query = request.args.get('ciphertext')
-    key = request.args.get('key')
+    json_request = request.get_json()
+    query = json_request['ciphertext']
+    key = json_request['key']
     decrypted_text = standard_vigenere_decrypter(query, key)
 
     response = create_plain_text_response(decrypted_text)
@@ -104,8 +111,9 @@ def decrypt_full_text_vigenere():
 
 @app.route('/decrypt/text/vigenere/auto', methods=['GET'])
 def decrypt_auto_text_vigenere():
-    query = request.args.get('ciphertext')
-    key = request.args.get('key')
+    json_request = request.get_json()
+    query = json_request['ciphertext']
+    key = json_request['key']
     decrypted_text = auto_key_vigenere_decrypter(query, key)
 
     response = create_plain_text_response(decrypted_text)
@@ -132,9 +140,10 @@ def decrypt_text_super():
 
 @app.route('/decrypt/text/affine', methods=['GET'])
 def decrypt_text_affine():
-    query = request.args.get('ciphertext')
-    m = request.args.get('m')
-    b = request.args.get('b')
+    json_request = request.get_json()
+    query = json_request['ciphertext']
+    m = json_request['m']
+    b = json_request['b']
 
     m, b = int(m), int(b)
     decrypted_text = affine_decrypter(query, m, b)
