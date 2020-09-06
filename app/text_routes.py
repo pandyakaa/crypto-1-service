@@ -154,8 +154,12 @@ def decrypt_text_affine():
 
 @app.route('/decrypt/text/hill', methods=['GET'])
 def decrypt_text_hill():
-    query = request.args.get('ciphertext')
-    return query
+    json_request = request.get_json()
+    query = json_request['ciphertext']
+    response = hill_decrypter(query, '')
+
+    response = create_plain_text_response(response)
+    return response
 
 
 @app.route('/decrypt/text/enigma', methods=['GET'])

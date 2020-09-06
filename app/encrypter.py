@@ -15,8 +15,7 @@ Encrypter
 
 import numpy as np
 from .helper.vigenere_helper import *
-from .helper.handle_capital import letter_base_number, standardize_key
-from .helper.util import *
+from .helper.handle_capital import letter_base_number, standardize_key, get_char, get_order
 
 
 def standard_vigenere_encrypter(plaintext, key):
@@ -82,19 +81,23 @@ def affine_encrypter(plaintext, m, b):
 
 
 def hill_encrypter(plaintext, key):
-    res = ""
+    ciphertext = ""
     plaintext = plaintext.replace(" ", "")
     rem = len(plaintext) % 3
-    plaintext += 'x' * (3-rem)
+    if (rem != 0) :
+        plaintext += 'x' * (3-rem)
     key = np.array([[17, 17, 5], [21, 18, 21], [2, 2, 19]])
-    for i in range(0, len(plaintext) - 3, 3):
-        current_string = np.array([getOrder(plaintext[i]), getOrder(
-            plaintext[i+1]), getOrder(plaintext[i+2])])
+    for i in range(0, len(plaintext) , 3):
+        base_number = [letter_base_number(plaintext[i]), letter_base_number(
+            plaintext[i+1]), letter_base_number(plaintext[i+2])]
+        current_string = np.array([get_order(plaintext[i], base_number[0]), get_order(
+            plaintext[i+1], base_number[1]), get_order(plaintext[i+2], base_number[2])])
         dot_result = np.dot(key, current_string)
         current_result = np.mod(dot_result, 26)
-        res += getChar(current_result[0]) + \
-            getChar(current_result[1]) + getChar(current_result[2])
-    return res
+        ciphertext += get_char(current_result[0], base_number[0]) + \
+            get_char(current_result[1], base_number[1]) + \
+            get_char(current_result[2], base_number[2])
+    return ciphertext
 
 
 def enigma_encrypter(plaintext, key):

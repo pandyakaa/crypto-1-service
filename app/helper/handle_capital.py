@@ -12,3 +12,11 @@ def standardize_key(text_letter, key_letter):
         key_letter = key_letter.lower()
 
     return key_letter
+
+
+def get_order(c, base_number=97):
+    return (ord(c)-base_number)
+
+
+def get_char(i, base_number=97):
+    return (chr(i+base_number))
