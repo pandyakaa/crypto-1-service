@@ -39,6 +39,19 @@ def encrypt_bigram(bigram, key_matrix):
         return key_matrix[x1][b] + key_matrix[x2][d]
     return key_matrix[a][d] + key_matrix[c][b]
 
+def decrypt_bigram(bigram, key_matrix):
+    first = np.where(key_matrix==bigram[0])
+    second = np.where(key_matrix==bigram[1])
+    a, b = first[0][0], first[1][0]
+    c, d = second[0][0], second[1][0]
+    if (a==c):
+        y1, y2 = (b-1)%5, (d-1)%5
+        return key_matrix[a][y1] + key_matrix[c][y2]
+    if (b==d):
+        x1, x2 = (a-1)%5, (c-1)%5
+        return key_matrix[x1][b] + key_matrix[x2][d]
+    return key_matrix[a][d] + key_matrix[c][b]
+
 # if __name__ == "__main__":
 #     key_matrix = create_playfair_key('jalan ganesha sepuluh')
 #     print(key_matrix)
