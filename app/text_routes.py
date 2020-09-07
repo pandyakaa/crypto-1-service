@@ -55,8 +55,15 @@ def encrypt_text_playfair():
 
 @app.route('/encrypt/text/super', methods=['GET'])
 def encrypt_text_super():
-    query = request.args.get('plaintext')
-    return query
+    json_request = request.get_json()
+    query = json_request['plaintext']
+    vigenere_key = json_request['vigenere_key']
+    transpose_key = int(json_request['transpose_key'])
+
+    encrypted_text = super_encrypter(query, vigenere_key, transpose_key)
+    
+    response = create_cipher_text_response(encrypted_text)
+    return response
 
 
 @app.route('/encrypt/text/affine', methods=['GET'])

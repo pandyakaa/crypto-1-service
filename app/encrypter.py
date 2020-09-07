@@ -16,6 +16,7 @@ Encrypter
 import numpy as np
 from .helper.vigenere_helper import *
 from .helper.handle_character import letter_base_number, standardize_key, get_char, get_order
+from .helper.transposition_helper import create_encrypt_matrix
 
 
 def standard_vigenere_encrypter(plaintext, key):
@@ -64,8 +65,26 @@ def playfair_encrypter(plaintext, key):
     return None
 
 
-def super_encrypter(plaintext, key):
-    return None
+def transposition_encrypter(plaintext, key):
+    ciphertext = []
+    if (len(plaintext) % key) != 0:
+        plaintext += 'x' * (key - (len(plaintext) % key))
+    encryption_matrix = create_encrypt_matrix(plaintext, key)
+
+    for j in range(len(encryption_matrix[0])):
+        for i in encryption_matrix:
+            ciphertext.append(i[j])
+
+    return "".join(ciphertext)
+
+
+def super_encrypter(plaintext, vigenere_key, transpose_key):
+    vigenere_encrypted_text = standard_vigenere_encrypter(
+        plaintext, vigenere_key)
+    transposition_encrypted_text = transposition_encrypter(
+        vigenere_encrypted_text, transpose_key)
+
+    return transposition_encrypted_text
 
 
 def affine_encrypter(plaintext, m, b):
@@ -84,10 +103,10 @@ def hill_encrypter(plaintext, key):
     ciphertext = ""
     plaintext = plaintext.replace(" ", "")
     rem = len(plaintext) % 3
-    if (rem != 0) :
+    if (rem != 0):
         plaintext += 'x' * (3-rem)
     key = np.array([[17, 17, 5], [21, 18, 21], [2, 2, 19]])
-    for i in range(0, len(plaintext) , 3):
+    for i in range(0, len(plaintext), 3):
         base_number = [letter_base_number(plaintext[i]), letter_base_number(
             plaintext[i+1]), letter_base_number(plaintext[i+2])]
         current_string = np.array([get_order(plaintext[i], base_number[0]), get_order(
