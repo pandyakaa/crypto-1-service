@@ -81,13 +81,14 @@ def affine_decrypter(ciphertext, m, b):
 def hill_decrypter(ciphertext, key):
     plaintext = ""
     ciphertext = ciphertext.replace(" ", "")
-    key = np.array([[4, 9, 15], [15, 17, 6], [24, 0, 17]])
+    key = np.array([[17, 17, 5], [21, 18, 21], [2, 2, 19]])
+    key_inversed = np.linalg.inv(key)
     for i in range(0, len(ciphertext), 3):
         base_number = [letter_base_number(ciphertext[i]), letter_base_number(
             ciphertext[i+1]), letter_base_number(ciphertext[i+2])]
         current_string = np.array([get_order(ciphertext[i], base_number[0]), get_order(
             ciphertext[i+1], base_number[1]), get_order(ciphertext[i+2], base_number[2])])
-        dot_result = np.dot(key, current_string)
+        dot_result = np.dot(key_inversed, current_string)
         current_result = np.mod(dot_result, 26)
         plaintext += get_char(current_result[0], base_number[0]) + \
             get_char(current_result[1], base_number[1]) + \
