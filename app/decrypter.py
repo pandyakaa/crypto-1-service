@@ -16,6 +16,7 @@ import numpy as np
 from .helper.vigenere_helper import generate_vigenere_standard_key
 from .helper.handle_character import letter_base_number, standardize_key, get_char, get_order
 from .helper.affine_helper import find_m_inverse
+from .helper.transposition_helper import create_decrypt_matrix
 
 
 def standard_vigenere_decrypter(ciphertext, key):
@@ -24,7 +25,7 @@ def standard_vigenere_decrypter(ciphertext, key):
     for i in range(len(ciphertext)):
         key_letter = standardize_key(ciphertext[i], key[i])
         base_number = letter_base_number(ciphertext[i])
-        decrypted_char = (ord(ciphertext[i]) - ord(key_letter) + 26) % 26
+        decrypted_char = (ord(ciphertext[i]) - ord(key_letter)) % 26
         decrypted_char = get_char(decrypted_char, base_number)
         plaintext.append(decrypted_char)
 
@@ -40,7 +41,7 @@ def auto_key_vigenere_decrypter(ciphertext, key):
     for i in range(len(ciphertext)):
         key_letter = standardize_key(ciphertext[i], key[i])
         base_number = letter_base_number(ciphertext[i])
-        decrypted_char = (ord(ciphertext[i]) - ord(key_letter) + 26) % 26
+        decrypted_char = (ord(ciphertext[i]) - ord(key_letter)) % 26
         decrypted_char = get_char(decrypted_char, base_number)
         plaintext.append(decrypted_char)
 
@@ -51,7 +52,7 @@ def extended_vigenere_decrypter(ciphertext, key):
     plaintext = []
     key = generate_vigenere_standard_key(ciphertext, key)
     for i in range(len(ciphertext)):
-        decrypted_char = (ord(ciphertext[i]) - ord(key[i]) + 256) % 256
+        decrypted_char = (ord(ciphertext[i]) - ord(key[i])) % 256
         plaintext.append(chr(decrypted_char))
 
     return "".join(plaintext)
@@ -61,8 +62,24 @@ def playfair_decrypter(ciphertext, key):
     return None
 
 
-def super_decrypter(ciphertext, key):
-    return None
+def transposition_decrypter(ciphertext, key):
+    plaintext = []
+    if (len(ciphertext) % key) != 0:
+        ciphertext += 'x' * (key - (len(ciphertext) % key))
+    decryption_matrix = create_decrypt_matrix(ciphertext, key)
+
+    for j in range(len(decryption_matrix[0])):
+        for i in decryption_matrix:
+            plaintext.append(i[j])
+
+    return "".join(plaintext)
+
+
+def super_decrypter(ciphertext, vigenere_key, transpose_key):
+    plaintext = transposition_decrypter(ciphertext, transpose_key)
+    plaintext = standard_vigenere_decrypter(plaintext, vigenere_key)
+
+    return plaintext
 
 
 def affine_decrypter(ciphertext, m, b):

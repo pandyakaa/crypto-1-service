@@ -1,6 +1,6 @@
 from app import app
 from flask import request
-from .decrypter import hill_decrypter, affine_decrypter, auto_key_vigenere_decrypter, standard_vigenere_decrypter
+from .decrypter import hill_decrypter, affine_decrypter, auto_key_vigenere_decrypter, standard_vigenere_decrypter, super_decrypter
 from .encrypter import hill_encrypter, affine_encrypter, auto_key_vigenere_encrypter, standard_vigenere_encrypter, super_encrypter
 from .helper.create_response import create_cipher_text_response, create_plain_text_response
 
@@ -141,8 +141,14 @@ def decrypt_text_playfair():
 
 @app.route('/decrypt/text/super', methods=['GET'])
 def decrypt_text_super():
-    query = request.args.get('ciphertext')
-    return query
+    json_request = request.get_json()
+    query = json_request['ciphertext']
+    vigenere_key = json_request['vigenere_key']
+    transpose_key = json_request['transpose_key']
+    decrypted_text = super_decrypter(query, vigenere_key, transpose_key)
+
+    response = create_plain_text_response(decrypted_text)
+    return response
 
 
 @app.route('/decrypt/text/affine', methods=['GET'])

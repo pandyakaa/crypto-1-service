@@ -26,7 +26,8 @@ def standard_vigenere_encrypter(plaintext, key):
     for i in range(len(plaintext)):
         key_letter = standardize_key(plaintext[i], key[i])
         base_number = letter_base_number(plaintext[i])
-        encrypted_char = (ord(plaintext[i]) + ord(key_letter)) % 26
+        encrypted_char = (ord(plaintext[i]) +
+                          ord(key_letter) - 2 * base_number) % 26
         encrypted_char = get_char(encrypted_char, base_number)
         ciphertext.append(encrypted_char)
 
@@ -43,7 +44,8 @@ def auto_key_vigenere_encrypter(plaintext, key):
     for i in range(len(plaintext)):
         key_letter = standardize_key(plaintext[i], key[i])
         base_number = letter_base_number(plaintext[i])
-        encrypted_char = (ord(plaintext[i]) + ord(key_letter)) % 26
+        encrypted_char = (ord(plaintext[i]) +
+                          ord(key_letter) - 2 * base_number) % 26
         encrypted_char = get_char(encrypted_char, base_number)
         ciphertext.append(encrypted_char)
 
