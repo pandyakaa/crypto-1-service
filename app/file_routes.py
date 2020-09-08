@@ -28,7 +28,7 @@ def encrypt_file_vigenere():
 
 @app.route('/encrypt/file/vigenere/full', methods=['GET', 'POST'])
 def encrypt_full_file_vigenere():
-    query = request.args.get('plaintext')
+    query = request.args.get('message')
     return query
 
 
@@ -110,7 +110,7 @@ def encrypt_file_hill():
 
 @app.route('/encrypt/file/enigma', methods=['GET', 'POST'])
 def encrypt_file_enigma():
-    query = request.args.get('plaintext')
+    query = request.args.get('message')
     return query
 
 
@@ -131,7 +131,7 @@ def decrypt_file_vigenere():
 
 @app.route('/decrypt/file/vigenere/full', methods=['GET', 'POST'])
 def decrypt_full_file_vigenere():
-    query = request.args.get('ciphertext')
+    query = request.args.get('message')
     return query
 
 
@@ -214,5 +214,5 @@ def decrypt_file_hill():
 
 @app.route('/decrypt/file/enigma', methods=['GET', 'POST'])
 def decrypt_file_enigma():
-    query = request.args.get('ciphertext')
+    query = request.args.get('message')
     return query
