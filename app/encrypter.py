@@ -15,10 +15,10 @@ Encrypter
 
 import numpy as np
 from .helper.vigenere_helper import *
-from .helper.handle_character import letter_base_number, standardize_key, get_char, get_order
 from .helper.transposition_helper import create_encrypt_matrix
-from .helper.playfair_helper import *
 from .helper.hill_helper import create_hill_key
+from .helper.playfair_helper import create_playfair_key, process_plain_input, encrypt_bigram
+from .util.handle_character import letter_base_number, standardize_key, get_char, get_order
 
 
 def standard_vigenere_encrypter(plaintext, key):
@@ -28,7 +28,8 @@ def standard_vigenere_encrypter(plaintext, key):
     for i in range(len(plaintext)):
         key_letter = standardize_key(plaintext[i], key[i])
         base_number = letter_base_number(plaintext[i])
-        encrypted_char = (ord(plaintext[i]) + ord(key_letter)) % 26
+        encrypted_char = (ord(plaintext[i]) +
+                          ord(key_letter) - 2 * base_number) % 26
         encrypted_char = get_char(encrypted_char, base_number)
         ciphertext.append(encrypted_char)
 
@@ -45,7 +46,8 @@ def auto_key_vigenere_encrypter(plaintext, key):
     for i in range(len(plaintext)):
         key_letter = standardize_key(plaintext[i], key[i])
         base_number = letter_base_number(plaintext[i])
-        encrypted_char = (ord(plaintext[i]) + ord(key_letter)) % 26
+        encrypted_char = (ord(plaintext[i]) +
+                          ord(key_letter) - 2 * base_number) % 26
         encrypted_char = get_char(encrypted_char, base_number)
         ciphertext.append(encrypted_char)
 
@@ -55,20 +57,19 @@ def auto_key_vigenere_encrypter(plaintext, key):
 def extended_vigenere_encrypter(plaintext, key):
     ciphertext = []
     key = generate_vigenere_standard_key(plaintext, key)
-    plaintext = plaintext.replace(" ", "").strip()
     for i in range(len(plaintext)):
-        encrypted_char = (ord(plaintext[i]) + ord(key[i])) % 256
+        encrypted_char = (plaintext[i] + ord(key[i])) % 256
         ciphertext.append(chr(encrypted_char))
 
     return "".join(ciphertext)
 
 
 def playfair_encrypter(plaintext, key):
-    encrypted=""
+    encrypted = ""
     key_matrix = create_playfair_key(key)
     processed_input = process_plain_input(plaintext)
     for i in range(0, len(processed_input), 2):
-        encrypted+=encrypt_bigram(processed_input[i:i+2], key_matrix)
+        encrypted += encrypt_bigram(processed_input[i:i+2], key_matrix)
     return encrypted
 
 
