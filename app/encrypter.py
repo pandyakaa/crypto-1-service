@@ -15,9 +15,9 @@ Encrypter
 
 import numpy as np
 from .helper.vigenere_helper import *
-from .helper.handle_character import letter_base_number, standardize_key, get_char, get_order
 from .helper.transposition_helper import create_encrypt_matrix
-from .helper.playfair_helper import *
+from .helper.playfair_helper import create_playfair_key, process_plain_input, encrypt_bigram
+from .util.handle_character import letter_base_number, standardize_key, get_char, get_order
 
 
 def standard_vigenere_encrypter(plaintext, key):
@@ -64,11 +64,11 @@ def extended_vigenere_encrypter(plaintext, key):
 
 
 def playfair_encrypter(plaintext, key):
-    encrypted=""
+    encrypted = ""
     key_matrix = create_playfair_key(key)
     processed_input = process_plain_input(plaintext)
     for i in range(0, len(processed_input), 2):
-        encrypted+=encrypt_bigram(processed_input[i:i+2], key_matrix)
+        encrypted += encrypt_bigram(processed_input[i:i+2], key_matrix)
     return encrypted
 
 

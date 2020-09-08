@@ -2,7 +2,7 @@ from app import app
 from flask import request
 from .decrypter import hill_decrypter, affine_decrypter, auto_key_vigenere_decrypter, standard_vigenere_decrypter, super_decrypter, extended_vigenere_decrypter, playfair_decrypter
 from .encrypter import hill_encrypter, affine_encrypter, auto_key_vigenere_encrypter, standard_vigenere_encrypter, super_encrypter, extended_vigenere_encrypter, playfair_encrypter
-from .helper.create_response import create_cipher_text_response, create_plain_text_response
+from .util.create_response import create_cipher_text_response, create_plain_text_response
 
 
 @app.route('/')
@@ -59,6 +59,7 @@ def encrypt_text_playfair():
     query = json_request['plaintext']
     key = json_request['key']
     encrypted_text = playfair_encrypter(query, key)
+
     response = create_cipher_text_response(encrypted_text)
     return response
 
@@ -155,6 +156,7 @@ def decrypt_text_playfair():
     key = json_request['key']
     decrypted_text = playfair_decrypter(query, key)
     decrypted_text = decrypted_text.replace('x', '')
+
     response = create_plain_text_response(decrypted_text)
     return response
 
