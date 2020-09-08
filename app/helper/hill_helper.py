@@ -32,9 +32,15 @@ def hill_inverse(matrix):
     adjugate %= 26
     return adjugate
 
+def create_hill_key(key):
+    key_matrix = np.array(list(map(int,key.split())))
+    key_matrix = np.reshape(key_matrix, (3,3))
+    return key_matrix
 
 # if __name__ == "__main__":
     # test = np.array([[17, 17, 5],[21,18,21],[2,2,19]])
+    # key_string = "17 17 5 21 18 21 2 2 19"
+    # print(create_hill_key(key_string))
     # print(hill_inverse(test))
     # print(find_adjugate(test))
     

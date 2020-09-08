@@ -18,6 +18,7 @@ from .helper.vigenere_helper import *
 from .helper.handle_character import letter_base_number, standardize_key, get_char, get_order
 from .helper.transposition_helper import create_encrypt_matrix
 from .helper.playfair_helper import *
+from .helper.hill_helper import create_hill_key
 
 
 def standard_vigenere_encrypter(plaintext, key):
@@ -111,7 +112,7 @@ def hill_encrypter(plaintext, key):
     rem = len(plaintext) % 3
     if (rem != 0):
         plaintext += 'x' * (3-rem)
-    key = np.array([[17, 17, 5], [21, 18, 21], [2, 2, 19]])
+    key = create_hill_key(key)
     for i in range(0, len(plaintext), 3):
         base_number = [letter_base_number(plaintext[i]), letter_base_number(
             plaintext[i+1]), letter_base_number(plaintext[i+2])]
