@@ -53,6 +53,7 @@ def full_vigenere_encrypter(plaintext, key):
 
 def auto_key_vigenere_encrypter(plaintext, key):
     ciphertext = []
+    plaintext = plaintext.replace(" ", "").strip()
     key = generate_vigenere_auto_key(plaintext, key)
     for i in range(len(plaintext)):
         key_letter = standardize_key(plaintext[i], key[i])
