@@ -64,6 +64,8 @@ def auto_key_vigenere_decrypter(ciphertext, key):
 def extended_vigenere_decrypter(ciphertext, key):
     plaintext = []
     key = generate_vigenere_standard_key(ciphertext, key)
+    if (type(ciphertext) == str) :
+        ciphertext = [ord(i) for i in ciphertext]
     for i in range(len(ciphertext)):
         decrypted_char = (ciphertext[i] - ord(key[i])) % 256
         plaintext.append(decrypted_char)

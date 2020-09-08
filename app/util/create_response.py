@@ -6,6 +6,8 @@ full_path = os.path.abspath(os.path.join(os.path.realpath(__file__), '../..'))
 
 
 def create_plain_text_response(plaintext):
+    if (type(plaintext) == bytes) :
+        plaintext = "".join([chr(i) for i in plaintext])
     return ({'plaintext': plaintext})
 
 
