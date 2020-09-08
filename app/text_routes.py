@@ -1,7 +1,7 @@
 from app import app
 from flask import request
-from .decrypter import hill_decrypter, affine_decrypter, auto_key_vigenere_decrypter, standard_vigenere_decrypter, super_decrypter, extended_vigenere_decrypter, playfair_decrypter
-from .encrypter import hill_encrypter, affine_encrypter, auto_key_vigenere_encrypter, standard_vigenere_encrypter, super_encrypter, extended_vigenere_encrypter, playfair_encrypter
+from .decrypter import hill_decrypter, affine_decrypter, auto_key_vigenere_decrypter, standard_vigenere_decrypter, super_decrypter, extended_vigenere_decrypter, playfair_decrypter, full_vigenere_decrypter
+from .encrypter import hill_encrypter, affine_encrypter, auto_key_vigenere_encrypter, standard_vigenere_encrypter, super_encrypter, extended_vigenere_encrypter, playfair_encrypter, full_vigenere_encrypter
 from .util.create_response import create_cipher_text_response, create_plain_text_response
 
 
@@ -26,8 +26,13 @@ def encrypt_text_vigenere():
 
 @app.route('/encrypt/text/vigenere/full', methods=['POST'])
 def encrypt_full_text_vigenere():
-    query = request.args.get('message')
-    return query
+    json_request = request.get_json()
+    query = json_request['message']
+    key = json_request['key']
+    encrypted_text = full_vigenere_encrypter(query, key)
+
+    response = create_cipher_text_response(encrypted_text)
+    return response
 
 
 @app.route('/encrypt/text/vigenere/auto', methods=['POST'])
@@ -124,8 +129,14 @@ def decrypt_text_vigenere():
 
 @app.route('/decrypt/text/vigenere/full', methods=['POST'])
 def decrypt_full_text_vigenere():
-    query = request.args.get('message')
-    return query
+    json_request = request.get_json()
+    query = json_request['message']
+    key = json_request['key']
+    decrypted_text = full_vigenere_decrypter(query, key)
+
+    response = create_plain_text_response(decrypted_text)
+    return response
+
 
 
 @app.route('/decrypt/text/vigenere/auto', methods=['POST'])

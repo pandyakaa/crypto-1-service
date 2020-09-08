@@ -13,13 +13,13 @@ Decrypter
 '''
 
 import numpy as np
-from .helper.vigenere_helper import generate_vigenere_standard_key
+from .helper.vigenere_helper import generate_vigenere_standard_key, generate_vigenere_matrix
 from .helper.affine_helper import find_m_inverse
 from .helper.hill_helper import hill_inverse, create_hill_key
-from .helper.playfair_helper import *
 from .helper.playfair_helper import decrypt_bigram, create_playfair_key
 from .helper.transposition_helper import create_decrypt_matrix
 from .util.handle_character import letter_base_number, standardize_key, get_char, get_order
+
 
 def standard_vigenere_decrypter(ciphertext, key):
     plaintext = []
@@ -35,7 +35,18 @@ def standard_vigenere_decrypter(ciphertext, key):
 
 
 def full_vigenere_decrypter(ciphertext, key):
-    return None
+    plaintext = []
+    key = generate_vigenere_standard_key(ciphertext, key)
+    full_matrix = generate_vigenere_matrix()
+    ciphertext = ciphertext.replace(" ", "").strip()
+    for i in range(len(ciphertext)):
+        key_letter = standardize_key(ciphertext[i], key[i])
+        key_base_number = letter_base_number(key_letter)
+        base_key = ord(key_letter) - key_base_number
+        encrypted_char = full_matrix[base_key].index(ciphertext[i])
+        plaintext.append(chr(encrypted_char+key_base_number))
+
+    return "".join(plaintext)
 
 
 def auto_key_vigenere_decrypter(ciphertext, key):

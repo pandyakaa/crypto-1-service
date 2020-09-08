@@ -37,12 +37,23 @@ def standard_vigenere_encrypter(plaintext, key):
 
 
 def full_vigenere_encrypter(plaintext, key):
-    return None
+    ciphertext = []
+    key = generate_vigenere_standard_key(plaintext, key)
+    full_matrix = generate_vigenere_matrix()
+    plaintext = plaintext.replace(" ", "").strip()
+    for i in range(len(plaintext)):
+        key_letter = standardize_key(plaintext[i], key[i])
+        base_plaintext = ord(plaintext[i]) - letter_base_number(plaintext[i])
+        base_key = ord(key_letter) - letter_base_number(key_letter)
+        encrypted_char = full_matrix[base_key][base_plaintext]
+        ciphertext.append(encrypted_char)
+
+    return "".join(ciphertext)
 
 
 def auto_key_vigenere_encrypter(plaintext, key):
     ciphertext = []
-    key = generate_vigenere_full_key(plaintext, key)
+    key = generate_vigenere_auto_key(plaintext, key)
     for i in range(len(plaintext)):
         key_letter = standardize_key(plaintext[i], key[i])
         base_number = letter_base_number(plaintext[i])
@@ -60,7 +71,7 @@ def extended_vigenere_encrypter(plaintext, key):
     for i in range(len(plaintext)):
         encrypted_char = (plaintext[i] + ord(key[i])) % 256
         ciphertext.append(encrypted_char)
-    
+
     return bytes(ciphertext)
 
 
