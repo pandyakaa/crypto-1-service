@@ -28,36 +28,6 @@ def generate_vigenere_auto_key(text, key):
     return "".join(key)
 
 
-'''
-[   [], 
-    [], 
-    [], 
-    [], 
-    [], 
-    [], 
-    [], 
-    [], 
-    [], 
-    [], 
-    [], 
-    [], 
-    [], 
-    [], 
-    [], 
-    [], 
-    [], 
-    [], 
-    [], 
-    [], 
-    [], 
-    [], 
-    [], 
-    [], 
-    [], 
-    [] ]
-'''
-
-
 def generate_vigenere_matrix():
     matrix = [['a', 'z', 'b', 'y', 'c', 'x', 'd', 'w', 'e', 'v', 'f', 'u', 'g',
                't', 'h', 's', 'i', 'r', 'j', 'q', 'k', 'p', 'l', 'o', 'm', 'n'],
