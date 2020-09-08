@@ -51,7 +51,6 @@ def encrypt_extended_file_vigenere():
     filename, file_context = handle_ascii_file(file)
     encrypted_context = extended_vigenere_encrypter(file_context, key)
 
-    encrypted_context = encrypted_context.encode()
     complete_filename = create_file_response(
         filename, encrypted_context)
     return send_file(complete_filename)
@@ -153,9 +152,7 @@ def decrypt_extended_file_vigenere():
     file = request.files['file']
     key = request.form['key']
     filename, file_context = handle_ascii_file(file)
-    file_context = file_context.decode()
     decrypted_context = extended_vigenere_decrypter(file_context, key)
-    decrypted_context = decrypted_context.encode()
 
     complete_filename = create_file_response(
         filename, decrypted_context)

@@ -58,9 +58,9 @@ def extended_vigenere_encrypter(plaintext, key):
     key = generate_vigenere_standard_key(plaintext, key)
     for i in range(len(plaintext)):
         encrypted_char = (plaintext[i] + ord(key[i])) % 256
-        ciphertext.append(chr(encrypted_char))
-
-    return "".join(ciphertext)
+        ciphertext.append(encrypted_char)
+    
+    return bytes(ciphertext)
 
 
 def playfair_encrypter(plaintext, key):
