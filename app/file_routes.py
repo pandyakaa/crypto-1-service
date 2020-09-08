@@ -107,8 +107,9 @@ def encrypt_file_affine():
 @app.route('/encrypt/file/hill', methods=['GET', 'POST'])
 def encrypt_file_hill():
     file = request.files['file']
+    key = request.form['key']
     filename, file_context = handle_file(file)
-    encrypted_context = hill_encrypter(file_context, '')
+    encrypted_context = hill_encrypter(file_context, key)
 
     complete_filename = create_file_response(
         filename, encrypted_context)
@@ -188,8 +189,9 @@ def decrypt_file_playfair():
 @app.route('/decrypt/file/super', methods=['GET', 'POST'])
 def decrypt_file_super():
     file = request.files['file']
-    vigenere_key = request.form['vigenere_key']
-    transpose_key = int(request.form['transpose_key'])
+    key = request.form['key']
+    vigenere_key, transpose_key = key.split(',')
+    transpose_key = int(transpose_key)
     filename, file_context = handle_file(file)
     decrypted_context = super_decrypter(
         file_context, vigenere_key, transpose_key)
@@ -217,8 +219,9 @@ def decrypt_file_affine():
 @app.route('/decrypt/file/hill', methods=['GET', 'POST'])
 def decrypt_file_hill():
     file = request.files['file']
+    key = request.form['key']
     filename, file_context = handle_file(file)
-    decrypted_context = hill_decrypter(file_context, '')
+    decrypted_context = hill_decrypter(file_context, key)
 
     complete_filename = create_file_response(
         filename, decrypted_context)
