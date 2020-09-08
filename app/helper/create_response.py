@@ -1,4 +1,7 @@
-from flask import jsonify
+import os
+import time
+
+save_path = os.getcwd() + '/app/file_resources/'
 
 
 def create_plain_text_response(plaintext):
@@ -12,11 +15,10 @@ def create_cipher_text_response(cipher_text):
     return ({'ciphertext': cipher_text, 'splitted_ciphertext': splitted_ciphertext})
 
 
-def create_plain_file_response(plaintext):
-    # TODO
-    return plaintext
+def create_file_response(filename, cipher_text):
+    filename = str(int(time.time())) + '.encrypted.' + filename
+    complete_filename = os.path.join(save_path, filename)
+    with open(complete_filename, 'wb+') as f:
+        f.write(cipher_text)
 
-
-def create_cipher_file_response(cipher_text):
-    # TODO
-    return cipher_text
+    return complete_filename

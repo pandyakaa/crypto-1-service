@@ -1,7 +1,7 @@
 from app import app
 from flask import request
-from .decrypter import hill_decrypter, affine_decrypter, auto_key_vigenere_decrypter, standard_vigenere_decrypter, playfair_decrypter
-from .encrypter import hill_encrypter, affine_encrypter, auto_key_vigenere_encrypter, standard_vigenere_encrypter, super_encrypter, playfair_encrypter
+from .decrypter import hill_decrypter, affine_decrypter, auto_key_vigenere_decrypter, standard_vigenere_decrypter, super_decrypter, extended_vigenere_decrypter, playfair_decrypter
+from .encrypter import hill_encrypter, affine_encrypter, auto_key_vigenere_encrypter, standard_vigenere_encrypter, super_encrypter, extended_vigenere_encrypter, playfair_encrypter
 from .helper.create_response import create_cipher_text_response, create_plain_text_response
 
 
@@ -43,8 +43,14 @@ def encrypt_auto_text_vigenere():
 
 @app.route('/encrypt/text/vigenere/extended', methods=['GET'])
 def encrypt_extended_text_vigenere():
-    query = request.args.get('plaintext')
-    return query
+    json_request = request.get_json()
+    query = json_request['plaintext']
+    key = json_request['key']
+    query = query.encode()
+    encrypted_text = extended_vigenere_encrypter(query, key)
+
+    response = create_cipher_text_response(encrypted_text)
+    return response
 
 
 @app.route('/encrypt/text/playfair', methods=['GET'])
@@ -133,8 +139,13 @@ def decrypt_auto_text_vigenere():
 
 @app.route('/decrypt/text/vigenere/extended', methods=['GET'])
 def decrypt_extended_text_vigenere():
-    query = request.args.get('ciphertext')
-    return query
+    json_request = request.get_json()
+    query = json_request['ciphertext']
+    key = json_request['key']
+    decrypted_text = extended_vigenere_decrypter(query, key)
+
+    response = create_plain_text_response(decrypted_text)
+    return response
 
 
 @app.route('/decrypt/text/playfair', methods=['GET'])
@@ -150,8 +161,14 @@ def decrypt_text_playfair():
 
 @app.route('/decrypt/text/super', methods=['GET'])
 def decrypt_text_super():
-    query = request.args.get('ciphertext')
-    return query
+    json_request = request.get_json()
+    query = json_request['ciphertext']
+    vigenere_key = json_request['vigenere_key']
+    transpose_key = json_request['transpose_key']
+    decrypted_text = super_decrypter(query, vigenere_key, transpose_key)
+
+    response = create_plain_text_response(decrypted_text)
+    return response
 
 
 @app.route('/decrypt/text/affine', methods=['GET'])
