@@ -23,6 +23,8 @@ def create_cipher_text_response(cipher_text):
 def create_file_response(filename, cipher_text):
     filename = str(int(time.time())) + '.encrypted.' + filename
     complete_filename = os.path.join(full_path, 'file_resources', filename)
+    if type(cipher_text) == str:
+        cipher_text = cipher_text.encode()
     with open(complete_filename, 'wb+') as f:
         f.write(cipher_text)
 
