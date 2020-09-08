@@ -122,7 +122,7 @@ def encrypt_file_enigma():
 def decrypt_file_vigenere():
     file = request.files['file']
     key = request.form['key']
-    filename, file_context = handle_ascii_file(file)
+    filename, file_context = handle_file(file)
     decrypted_context = standard_vigenere_decrypter(file_context, key)
 
     complete_filename = create_file_response(
