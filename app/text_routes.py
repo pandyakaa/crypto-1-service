@@ -95,8 +95,8 @@ def encrypt_text_affine():
 def encrypt_text_hill():
     json_request = request.get_json()
     query = json_request['plaintext']
-    response = hill_encrypter(query, '')
-
+    key = json_request['key']
+    response = hill_encrypter(query, key)
     response = create_cipher_text_response(response)
     return response
 
@@ -191,7 +191,8 @@ def decrypt_text_affine():
 def decrypt_text_hill():
     json_request = request.get_json()
     query = json_request['ciphertext']
-    response = hill_decrypter(query, '')
+    key = json_request['key']
+    response = hill_decrypter(query, key)
 
     response = create_plain_text_response(response)
     return response

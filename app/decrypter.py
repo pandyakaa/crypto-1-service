@@ -15,11 +15,11 @@ Decrypter
 import numpy as np
 from .helper.vigenere_helper import generate_vigenere_standard_key
 from .helper.affine_helper import find_m_inverse
-from .helper.hill_helper import hill_inverse
+from .helper.hill_helper import hill_inverse, create_hill_key
+from .helper.playfair_helper import *
 from .helper.playfair_helper import decrypt_bigram, create_playfair_key
 from .helper.transposition_helper import create_decrypt_matrix
 from .util.handle_character import letter_base_number, standardize_key, get_char, get_order
-
 
 def standard_vigenere_decrypter(ciphertext, key):
     plaintext = []
@@ -104,7 +104,7 @@ def affine_decrypter(ciphertext, m, b):
 def hill_decrypter(ciphertext, key):
     plaintext = ""
     ciphertext = ciphertext.replace(" ", "")
-    key = np.array([[17, 17, 5], [21, 18, 21], [2, 2, 19]])
+    key = create_hill_key(key)
     key_inversed = hill_inverse(key)
     for i in range(0, len(ciphertext), 3):
         base_number = [letter_base_number(ciphertext[i]), letter_base_number(
