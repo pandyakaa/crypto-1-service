@@ -144,7 +144,7 @@ def decrypt_text_playfair():
     key = json_request['key']
     decrypted_text = playfair_decrypter(query, key)
     decrypted_text = decrypted_text.replace('x', '')
-    response = create_cipher_text_response(decrypted_text)
+    response = create_plain_text_response(decrypted_text)
     return response
 
 
