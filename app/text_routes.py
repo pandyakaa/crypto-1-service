@@ -68,8 +68,9 @@ def encrypt_text_playfair():
 def encrypt_text_super():
     json_request = request.get_json()
     query = json_request['message']
-    vigenere_key = json_request['vigenere_key']
-    transpose_key = int(json_request['transpose_key'])
+    key = json_request['key']
+    vigenere_key, transpose_key = key.split(',')
+    transpose_key = int(transpose_key)
 
     encrypted_text = super_encrypter(query, vigenere_key, transpose_key)
 
@@ -81,8 +82,8 @@ def encrypt_text_super():
 def encrypt_text_affine():
     json_request = request.get_json()
     query = json_request['message']
-    m = json_request['m']
-    b = json_request['b']
+    key = json_request['key']
+    m, b = key.split(',')
 
     m, b = int(m), int(b)
     encrypted_text = affine_encrypter(query, m, b)
@@ -165,8 +166,9 @@ def decrypt_text_playfair():
 def decrypt_text_super():
     json_request = request.get_json()
     query = json_request['message']
-    vigenere_key = json_request['vigenere_key']
-    transpose_key = json_request['transpose_key']
+    key = json_request['key']
+    vigenere_key, transpose_key = key.split(',')
+    transpose_key = int(transpose_key)
     decrypted_text = super_decrypter(query, vigenere_key, transpose_key)
 
     response = create_plain_text_response(decrypted_text)
@@ -177,8 +179,8 @@ def decrypt_text_super():
 def decrypt_text_affine():
     json_request = request.get_json()
     query = json_request['message']
-    m = json_request['m']
-    b = json_request['b']
+    key = json_request['key']
+    m, b = key.split(',')
 
     m, b = int(m), int(b)
     decrypted_text = affine_decrypter(query, m, b)

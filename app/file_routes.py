@@ -71,8 +71,9 @@ def encrypt_file_playfair():
 @app.route('/encrypt/file/super', methods=['GET', 'POST'])
 def encrypt_file_super():
     file = request.files['file']
-    vigenere_key = request.form['vigenere_key']
-    transpose_key = int(request.form['transpose_key'])
+    key = request.form['key']
+    vigenere_key, transpose_key = key.split(',')
+    transpose_key = int(transpose_key)
     filename, file_context = handle_file(file)
     encrypted_context = super_encrypter(
         file_context, vigenere_key, transpose_key)
@@ -85,8 +86,8 @@ def encrypt_file_super():
 @app.route('/encrypt/file/affine', methods=['GET', 'POST'])
 def encrypt_file_affine():
     file = request.files['file']
-    m = request.form['m']
-    b = request.form['b']
+    key = request.form['key']
+    m, b = key.split(',')
 
     m, b = int(m), int(b)
     filename, file_context = handle_file(file)
@@ -189,8 +190,8 @@ def decrypt_file_super():
 @app.route('/decrypt/file/affine', methods=['GET', 'POST'])
 def decrypt_file_affine():
     file = request.files['file']
-    m = request.form['m']
-    b = request.form['b']
+    key = request.form['key']
+    m, b = key.split(',')
 
     m, b = int(m), int(b)
     filename, file_context = handle_file(file)
