@@ -55,9 +55,8 @@ def auto_key_vigenere_encrypter(plaintext, key):
 def extended_vigenere_encrypter(plaintext, key):
     ciphertext = []
     key = generate_vigenere_standard_key(plaintext, key)
-    plaintext = plaintext.replace(" ", "").strip()
     for i in range(len(plaintext)):
-        encrypted_char = (ord(plaintext[i]) + ord(key[i])) % 256
+        encrypted_char = (plaintext[i] + ord(key[i])) % 256
         ciphertext.append(chr(encrypted_char))
 
     return "".join(ciphertext)
