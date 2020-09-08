@@ -130,3 +130,5 @@ dmypy.json
 .pyre/
 
 app/file_resources
+
+.DS_Store

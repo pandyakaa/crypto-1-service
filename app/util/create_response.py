@@ -2,7 +2,7 @@ import os
 import time
 
 save_path = os.getcwd() + '/app/file_resources/'
-
+full_path = os.path.abspath(os.path.join(os.path.realpath(__file__), '../..'))
 
 def create_plain_text_response(plaintext):
     return ({'plaintext': plaintext})
@@ -17,8 +17,13 @@ def create_cipher_text_response(cipher_text):
 
 def create_file_response(filename, cipher_text):
     filename = str(int(time.time())) + '.encrypted.' + filename
-    complete_filename = os.path.join(save_path, filename)
+    complete_filename = os.path.join(full_path, 'file_resources', filename)
     with open(complete_filename, 'wb+') as f:
         f.write(cipher_text)
 
     return complete_filename
+
+
+# if __name__ == "__main__":
+#     print(full_path)
+#     print(os.path.join(full_path, 'file_resources'))
